@@ -23,7 +23,7 @@ pMiss = 0.2
 #             q.append(miss)
 #     # normalize the distribution 
 #     qSum = sum(q)
-#     for i in range(len(q)):
+#     for i in range(len(q)):-m 
 #         q[i] = q[i] / qSum
 #     return q 
 
@@ -33,7 +33,7 @@ def sense(p, Z):
     for i in range(len(p)):
         hit = (Z == world[i])
         q.append(p[i] * (hit * pHit + (1-hit) * pMiss))
-        
+
     qSum = sum(q)
     for i in range(len(q)):
         q[i] = q[i] / qSum
