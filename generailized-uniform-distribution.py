@@ -5,9 +5,10 @@
 # is not valid because it does not actually add up to '1'. 
 
 
-# probability of 5 places (uniform distribution)
+# 1. probability of 5 places (uniform distribution)
 p = [1] * 5
 
+# 2. distribute the probability 
 for i in range(len(p)):
     p[i] = p[i] / len(p)
 
