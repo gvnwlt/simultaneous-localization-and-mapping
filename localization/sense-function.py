@@ -12,7 +12,7 @@ pMiss = 0.2
 
 # version 1 
 #def sense(p, Z): 
-#    q = []
+#    q = [] # non-normalized distribution
 #    # apply weights to observations 
 #    for obs in world:
 #        if obs == Z:
@@ -29,11 +29,11 @@ pMiss = 0.2
 
 # version 2 
 def sense(p, Z):
-    q=[]
+    q=[] # non-normalized distribution
     for i in range(len(p)):
         hit = (Z == world[i])
         q.append(p[i] * (hit * pHit + (1-hit) * pMiss))
-
+    # normalize the distribution 
     qSum = sum(q)
     for i in range(len(q)):
         q[i] = q[i] / qSum
