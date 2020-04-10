@@ -9,4 +9,4 @@ All of these modules build off of the previous module:
 3. sense-function 
 4. move-function  
 5. move-function-update (accounts for movement inaccuracies)
-6. sens-and-move
+6. sense-and-move
