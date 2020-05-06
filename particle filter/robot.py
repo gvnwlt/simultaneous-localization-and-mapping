@@ -93,23 +93,42 @@ def eval(r, p):
 # main: code and experiment here
 myrobot = robot()
 
-# Test:
+# Test 1:
 # set forward_noise, turn_noise, sense_noise
-myrobot.set_noise(5.0, 0.1, 5.0)
+#myrobot.set_noise(5.0, 0.1, 5.0)
 
 # starts at 30.0, 50.0, heading north (=pi/2)
-myrobot.set(30.0, 50.0, pi/2)
+#myrobot.set(30.0, 50.0, pi/2)
 
 # turns clockwise by pi/2, moves 15 meters
-myrobot = myrobot.move(-pi/2, 15.0)
+#myrobot = myrobot.move(-pi/2, 15.0)
 
 # senses
-print(myrobot.sense())
+#print(myrobot.sense())  # presents 4 possible locations of the robot (generates
+# particles)
 
 # turns clockwise by pi/2, moves 10 meters 
-myrobot = myrobot.move(-pi/2, 10.0)
+#myrobot = myrobot.move(-pi/2, 10.0)
 
 # senses 
-print(myrobot.sense())
+#print(myrobot.sense()) # presents 4 possible locations of the robot (generates
+# particles)
 
 #print(myrobot)
+
+# Test 2: 
+N = 1000
+p = []
+
+# create 1000 randomly generated robots/particles 
+for i in range(N):
+    p.append(robot())
+
+# apply move update to all particles
+p2 = [] 
+for i in range(N):
+    p2.append(p[i].move(0.1, 5.0))
+p = p2 # update p with new move data 
+
+print(len(p))
+print(p)
