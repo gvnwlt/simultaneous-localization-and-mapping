@@ -3,6 +3,8 @@
 from math import *
 import random
 
+# xy positions of landmarks (measurements)
+# this is the reference for what the robot sees
 landmarks = [[20.0, 20.0],
              [80.0, 80.0],
              [20.0, 80.0],
@@ -70,7 +72,7 @@ class robot:
         # calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma
         return exp(- ((mu - x) ** 2) / (sigma ** 2) / 2.0) / sqrt(2.0 * pi * (sigma ** 2))
 
-    def measurment_prob(self, measurement):
+    def measurement_prob(self, measurement):
         # calculates how likely a measurement should be 
         prob = 1.0
         for i in range(len(landmarks)): 
@@ -117,18 +119,69 @@ myrobot = robot()
 #print(myrobot)
 
 # Test 2: 
-N = 1000
-p = []
+# N = 1000
+# p = []
 
 # create 1000 randomly generated robots/particles 
-for i in range(N):
-    p.append(robot())
+# for i in range(N):
+#     p.append(robot())
 
 # apply move update to all particles
-p2 = [] 
-for i in range(N):
-    p2.append(p[i].move(0.1, 5.0))
-p = p2 # update p with new move data 
+# p2 = [] 
+# for i in range(N):
+#     p2.append(p[i].move(0.1, 5.0))
+# p = p2 # update p with new move data 
 
-print(len(p))
-print(p)
+# print(len(p))
+# print(p)
+
+# Test 3: 
+def run_particle_filter():
+    # 1. create actual bot 
+    myrobot = robot()
+    myrobot = myrobot.move(0.1, 5.0)
+    Z = myrobot.sense() 
+    #print(Z) # measurements/distances to 4 landmarks
+    #print(myrobot) # position of robot
+
+    # 2. create particles or simulated bots 
+    N = 1000
+    p = [] 
+    for i in range(N):
+        x = robot()
+        x.set_noise(0.05, 0.05, 5.0)
+        p.append(x)
+
+    # update with actual movement from real bot 
+    p2 = []
+    for i in range(N): 
+        p2.append(p[i].move(0.1, 5.0))
+    p = p2
+
+    # 3. assign importance weights to each of the particles 
+    w = []
+    for i in range(N):
+        w.append(p[i].measurement_prob(Z)) # Z is our actual bot's measurement
+
+    #print(w)
+
+    # 4. Resample 
+    p3 = []
+    index = int(random.random() * N)
+    beta = 0.0 
+    mw = max(w)
+    for i in range(N):
+        beta += random.random() * 2.0 * mw
+        while beta > w[index]:
+            beta -= w[index]
+            index = (index + 1) % N  
+        p3.append(p[index])      
+    p = p3
+
+    #print(p)
+    return p
+
+# run it     
+for i in range(20):
+    rp = run_particle_filter()
+    print(eval(myrobot, rp))
