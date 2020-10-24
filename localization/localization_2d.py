@@ -75,8 +75,7 @@ def localize(colors,measurements,motions,sensor_right,p_move):
     p = [[pinit for row in range(len(colors[0]))] for col in range(len(colors))]
     
     # >>> Insert your code here <<<
-    #for i in range(len(measurements)):
-    for i in range(2):
+    for i in range(len(measurements)):
         p = move(p, motions[i], p_move)
         p = sense(p, colors, measurements[i], sensor_right)
 
