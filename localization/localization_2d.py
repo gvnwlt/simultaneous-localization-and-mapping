@@ -55,7 +55,7 @@ def sense(p, colors, measurements, sensor_right):
             sum += p[i][j]
     for i in range(len(colors)):
         for j in range(len(colors[0])):
-            p[i][j] /= sum
+            p[i][j] /= sum #normalize the grid 
             #pass
     # return the updated grid 
     return p
